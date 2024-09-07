@@ -1,3 +1,26 @@
 .app-container{
   display: flex;
 }
+.postlist-container{
+  margin: 20px 20px;
+  width: 30rem;
+}
+
+.custom-badge{
+  margin: 0px 5px 0px 0px;
+}
+.reaction-container{
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.delete-badge{
+  cursor: pointer;
+}
+.create-post-container{
+  margin: 40px;
+}
+.create-post-h1{
+  text-align: center;
+  margin-bottom: 10px;
+}

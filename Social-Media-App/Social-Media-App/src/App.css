@@ -24,3 +24,12 @@
   text-align: center;
   margin-bottom: 10px;
 }
+.welcome-message{
+  margin: 100px 0px 10px 0px ;
+}
+.loading-spinner{
+  margin: 20%;
+}
+.media-header{
+  width: 100%;
+}

@@ -1,9 +1,11 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const PostListContext = createContext({
   postList: [],
+  isLoading: false,
   addPost: () => {},
   deletePost: () => {},
+  addPosts: () => {},
 });
 const postListReducer = (currPostList, action) => {
   let newPostList = currPostList;
@@ -14,34 +16,16 @@ const postListReducer = (currPostList, action) => {
   } else if (action.type === "ADD_POST") {
     console.log(`Add post `, action.payload);
     newPostList = [action.payload, ...newPostList];
+  } else if (action.type === "ADD_INTIAL_POSTS") {
+    console.log(action.payload.posts);
+    newPostList = action.payload.posts;
   }
-
   return newPostList;
 };
-const DEFAULT_POSTLIST = [
-  {
-    id: 1,
-    title: "Office Office",
-    body: "Visiting Office after a long time",
-    reactions: 5,
-    userId: 1,
-    tags: ["vacation", "mumbai"],
-  },
-  {
-    id: 2,
-    title: "Pass Pass Pass",
-    body: "Graduation me pass ho gaye",
-    reactions: 10,
-    userId: 1,
-    tags: ["graduation", "pass"],
-  },
-];
 
 const PostListContextProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    postListReducer,
-    DEFAULT_POSTLIST
-  );
+  const [postList, dispatchPostList] = useReducer(postListReducer, []);
+  const [isLoading, setIsLoading] = useState(false);
   const addPost = (post) => {
     post["id"] = Date.now();
     const action = {
@@ -59,8 +43,33 @@ const PostListContextProvider = ({ children }) => {
     };
     dispatchPostList(action);
   };
+  const addPosts = (posts) => {
+    dispatchPostList({
+      type: "ADD_INTIAL_POSTS",
+      payload: {
+        posts,
+      },
+    });
+  };
+  useEffect(() => {
+    setIsLoading(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        addPosts(data.posts);
+        setIsLoading(false);
+      });
+    return () => {
+      console.log("Cleaning the UseEffect");
+      controller.abort();
+    };
+  }, []);
   return (
-    <PostListContext.Provider value={{ postList, addPost, deletePost }}>
+    <PostListContext.Provider
+      value={{ postList, addPost, isLoading, deletePost, addPosts }}
+    >
       {children}
     </PostListContext.Provider>
   );

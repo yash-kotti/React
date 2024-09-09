@@ -51,21 +51,21 @@ const PostListContextProvider = ({ children }) => {
       },
     });
   };
-  useEffect(() => {
-    setIsLoading(true);
-    const controller = new AbortController();
-    const signal = controller.signal;
-    fetch("https://dummyjson.com/posts", { signal })
-      .then((res) => res.json())
-      .then((data) => {
-        addPosts(data.posts);
-        setIsLoading(false);
-      });
-    return () => {
-      console.log("Cleaning the UseEffect");
-      controller.abort();
-    };
-  }, []);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   fetch("https://dummyjson.com/posts", { signal })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       addPosts(data.posts);
+  //       setIsLoading(false);
+  //     });
+  //   return () => {
+  //     console.log("Cleaning the UseEffect");
+  //     controller.abort();
+  //   };
+  // }, []);
   return (
     <PostListContext.Provider
       value={{ postList, addPost, isLoading, deletePost, addPosts }}

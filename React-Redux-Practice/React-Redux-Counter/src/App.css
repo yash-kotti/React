@@ -1,0 +1,17 @@
+.display-container{
+  align-items: center;
+  justify-content: center;
+}
+.controls-div-1{
+  margin-top: 10px;
+}
+.controls-div-2{
+  margin: 10px;
+}
+.buttons-inside{
+  margin: 10px;
+
+}
+.input-add{
+  max-width: 60%;
+}
